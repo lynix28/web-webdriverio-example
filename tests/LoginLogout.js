@@ -8,12 +8,6 @@ const logout = require('../resources/pages/logout.page/object.js');
 const logoutAssert = require('../resources/pages/logout.page/assert.js');
 
 describe('Login Logout Module', function() {
-	// before(async function() {
-	// 	await browser.newWindow(variable.data.url);
-	// });
-	// after(async function() {
-	// 	await browser.closeWindow();
-	// });
 	describe('TS-001 | Login Logout', function() {
 		it('TC-001 | Check all content is loaded', async function() {
 			allureReporter.addTag('Sanity Test');

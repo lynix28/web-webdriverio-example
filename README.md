@@ -9,6 +9,7 @@
     - @wdio/local-runner
     - @wdio/mocha-framework
     - @wdio/selenium-standalone-service
+    - wdio-safaridriver-service (wdio service to run test on Safari)
 
 - <b>The Browsers + drivers</b>
     - Chrome = chromedriver \
@@ -31,3 +32,6 @@
 - specific test case
     - `npm run test -- --spec ./to/file/location.js --mochaOpts.grep "testcase name or testing tag"`
     - `npm run test -- --suite "suiteName" --mochaOpts.grep "testcase name or testing tag"`
+- running test on Safari
+    - start the driver with command `safaridriver -p <your desire port>` (make sure to use same port with the 'wdio configuration')
+    - run the test `npm run test-safari`

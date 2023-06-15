@@ -4,47 +4,15 @@ require('dotenv').config();
 const list = require('./test-suite-list.js');
 
 function checkBrowser() {
-	let capabilities, headless = [];
+	let capabilities;
 
-	if (process.env.BROWSER == 'chrome') {
-		if (process.env.HEADLESS == 'true') headless = ['headless', 'disable-gpu'];
+	if (process.env.BROWSER == 'safari') {
 		capabilities = {
-			browserName: 'chrome',
-			port: 5555,
-			'goog:chromeOptions': {
-				args: headless
-			},
+			browserName: 'safari',
 		};
-	} else if (process.env.BROWSER == 'firefox') {
-		if (process.env.HEADLESS == 'true') {
-			capabilities = {
-				browserName: 'firefox',
-				'moz:firefoxOptions': {
-					args: ['-headless']
-				},
-				port: 5555
-			};
-		} else if (process.env.HEADLESS == 'false') {
-			capabilities = {
-				browserName: 'firefox',
-				port: 5555
-			};
-		}
-	} else if (process.env.BROWSER == 'edge') {
-		if (process.env.HEADLESS == 'true') headless = ['--headless'];
-		capabilities = {
-			browserName: 'MicrosoftEdge',
-			'ms:edgeOptions': {
-				args: headless
-			},
-			port: 5555
-		};
-	} else if (process.env.BROWSER == 'safari') {
-		// eslint-disable-next-line no-console, quotes
-		console.error("invalid configuration file, use 'wdio.conf.safari.js' / run with 'npm run test-safari'");
 	} else {
 		// eslint-disable-next-line no-console
-		console.error('Please check your environtment setting, the current Browser env is not mean to run with Selenium Service');
+		console.error('Please check your environtment setting, the current Browser env is not mean to run on Safari Driver');
 	}
 	return capabilities;
 }
@@ -56,7 +24,7 @@ exports.config = {
 	// ====================
 	// WebdriverIO supports running e2e tests as well as unit and component tests.
 	runner: 'local',
-    
+	port: 5555,
 	//
 	// ==================
 	// Specify Test Files
@@ -155,11 +123,9 @@ exports.config = {
 	// your test setup with almost no effort. Unlike plugins, they don't add new
 	// commands. Instead, they hook themselves up into the test process.
 	services: [
-		['selenium-standalone', {
-			logPath: 'logs',
-			args: {
-				seleniumArgs: ['--port', '5555']
-			}
+		['safaridriver', {
+			outputDir: './logs',
+			logFileName: 'wdio-safaridriver.log'
 		}]
 	],
     
