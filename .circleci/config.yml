@@ -27,15 +27,16 @@ jobs:
       - run:
           name: "Install Browser - Chrome"
           command: |
-            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            dpkg -i google-chrome-stable_current_amd64.deb
-            apt-get install -f
+            apt-get install -y software-properties-common apt-transport-https ca-certificates
+            curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | tee /usr/share/keyrings/google-chrome.gpg > /dev/null
+            echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | tee /etc/apt/sources.list.d/google-chrome.list
+            apt-get -y install google-chrome-stable
           when: always
       - run:
           name: "Install Browser - Ms Edge"
           command: |
-            wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-            sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+            wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | apt-key add -
+            add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
             apt-get update  && apt-get -y install microsoft-edge-dev
           when: always
       - run:
