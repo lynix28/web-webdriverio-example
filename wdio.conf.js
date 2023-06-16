@@ -3,6 +3,25 @@ const allure = require('allure-commandline');
 require('dotenv').config();
 const list = require('./test-suite-list.js');
 
+function checkTestMode() {
+	let drivers;
+
+	if (process.env.CI == 'false'){
+		drivers = {}
+	} else if (process.env.CI == 'true' && process.env.BROWSER == 'chrome') {
+		drivers = { chrome: { version: 'latest' } }
+	} else if (process.env.CI == 'true' && process.env.BROWSER == 'firefox') {
+		drivers = { firefox: { version: 'latest' } }
+	} else if (process.env.CI == 'true' && process.env.BROWSER == 'edge') {
+		drivers = { chromiumedge: { version: 'latest' } }
+	} else {
+		// eslint-disable-next-line no-console
+		console.error('Please check your environtment setting, something went wrong');
+	}
+
+	return drivers;
+}
+
 function checkBrowser() {
 	let capabilities, headless = [];
 
@@ -156,8 +175,10 @@ exports.config = {
 	// commands. Instead, they hook themselves up into the test process.
 	services: [
 		['selenium-standalone', {
-			logPath: 'logs',
+			logPath: './logs',
+			installArgs: checkTestMode(),
 			args: {
+				drivers: checkTestMode(),
 				seleniumArgs: ['--port', '5555']
 			}
 		}]

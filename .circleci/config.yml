@@ -19,31 +19,32 @@ jobs:
       - run:
           name: "Install Node Package"
           command: npm install
-      - run:
-          name: "Install Browser - Firefox"
-          command: |
-            apt-get -y install firefox
-          when: always
-      - run:
-          name: "Install Browser - Chrome"
-          command: |
-            apt-get install -y software-properties-common apt-transport-https ca-certificates
-            curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | tee /usr/share/keyrings/google-chrome.gpg > /dev/null
-            echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | tee /etc/apt/sources.list.d/google-chrome.list
-            apt-get -y install google-chrome-stable
-          when: always
-      - run:
-          name: "Install Browser - Ms Edge"
-          command: |
-            wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | apt-key add -
-            add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
-            apt-get update  && apt-get -y install microsoft-edge-dev
-          when: always
+      # - run:
+      #     name: "Install Browser - Firefox"
+      #     command: |
+      #       apt-get -y install firefox
+      #     when: always
+      # - run:
+      #     name: "Install Browser - Chrome"
+      #     command: |
+      #       apt-get install -y software-properties-common apt-transport-https ca-certificates
+      #       curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | tee /usr/share/keyrings/google-chrome.gpg > /dev/null
+      #       echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | tee /etc/apt/sources.list.d/google-chrome.list
+      #       apt-get -y install google-chrome-stable
+      #     when: always
+      # - run:
+      #     name: "Install Browser - Ms Edge"
+      #     command: |
+      #       wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | apt-key add -
+      #       add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+      #       apt-get update  && apt-get -y install microsoft-edge-dev
+      #     when: always
       - run:
           name: "Run test - Firefox"
           command: |
             echo "BROWSER=firefox" > .env
             echo "HEADLESS=true" >> .env
+            echo "CI=true" >> .env
             npm run test -- --suite "sanityTest"
           when: always
 
