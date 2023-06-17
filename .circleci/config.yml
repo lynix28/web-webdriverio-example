@@ -18,6 +18,7 @@ jobs:
             npm install install selenium-standalone
             npx selenium-standalone install
             npx selenium-standalone start
+          background: true
       - run:
           name: "Run test - Firefox"
           command: |
