@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: "Running Selenium Standalone - Chrome"
-          command: docker run --name "chrome" -d -p 4444:4444 selenium/standalone-chrome:latest
+          command: docker run --name "chrome" -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:latest
           when: always
       - run:
           name: "Install Dependencies"
@@ -37,7 +37,7 @@ jobs:
       - checkout    
       - run:
           name: "Running Selenium Standalone - Firefox"
-          command: docker run --name "firefox" -d -p 4444:4444 selenium/standalone-firefox:latest
+          command: docker run --name "firefox" -d -p 4444:4444 --shm-size="2g" selenium/standalone-firefox:latest
           when: always
       - run:
           name: "Install Dependencies"
@@ -67,7 +67,7 @@ jobs:
       - checkout    
       - run:
           name: "Running Selenium Standalone - Edge"
-          command: docker run --name "edge" -d -p 4444:4444 selenium/standalone-edge:latest
+          command: docker run --name "edge" -d -p 4444:4444 --shm-size="2g" selenium/standalone-edge:latest
           when: always
       - run:
           name: "Install Dependencies"
