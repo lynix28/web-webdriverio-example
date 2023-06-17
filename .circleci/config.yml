@@ -10,6 +10,13 @@ jobs:
           command: docker run --name "chrome" -d -p 4444:4444 selenium/standalone-chrome:latest
           when: always
       - run:
+          name: "Install Dependencies"
+          command: |
+            curl -sL https://deb.nodesource.com/setup_18.x | bash -
+            sudo apt-get update
+            sudo apt-get -y install nodejs
+            npm install
+      - run:
           name: "Run Test - Chrome"
           command: |
             echo "BROWSER=chrome" > .env
@@ -33,6 +40,13 @@ jobs:
           command: docker run --name "firefox" -d -p 4444:4444 selenium/standalone-firefox:latest
           when: always
       - run:
+          name: "Install Dependencies"
+          command: |
+            curl -sL https://deb.nodesource.com/setup_18.x | bash -
+            sudo apt-get update
+            sudo apt-get -y install nodejs
+            npm install
+      - run:
           name: "Run test - Firefox"
           command: |
             echo "BROWSER=firefox" > .env
@@ -55,6 +69,13 @@ jobs:
           name: "Running Selenium Standalone - Edge"
           command: docker run --name "edge" -d -p 4444:4444 selenium/standalone-edge:latest
           when: always
+      - run:
+          name: "Install Dependencies"
+          command: |
+            curl -sL https://deb.nodesource.com/setup_18.x | bash -
+            sudo apt-get update
+            sudo apt-get -y install nodejs
+            npm install
       - run:
           name: "Run test - Edge"
           command: |
