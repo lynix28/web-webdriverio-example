@@ -267,6 +267,7 @@ exports.config = {
 	// eslint-disable-next-line no-unused-vars
 	beforeSuite: function (suite) {
 		global.browser.newWindow('');
+		global.browser.pause(10000);
 	},
 	/**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
