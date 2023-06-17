@@ -12,6 +12,13 @@ jobs:
           name: "Copy file to work directory"
           command: cp -r . /app/
       - run:
+          name: "Install Selenium Standalone server"
+          command: |
+            cd /app/
+            npm install install selenium-standalone
+            npx selenium-standalone install
+            npx selenium-standalone start
+      - run:
           name: "Run test - Firefox"
           command: |
             cd /app/
