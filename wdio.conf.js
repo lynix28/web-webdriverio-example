@@ -16,13 +16,13 @@ function checkServiceDriver() {
 		}
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--port', '5555']
+			seleniumArgs: ['--host', '127.0.0.1', '--port', '5555']
 		}
 	} else if (process.env.BROWSER == 'firefox') {
 		drivers = { firefox: { version: 'latest' } }
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--port', '5555']
+			seleniumArgs: ['--host', '127.0.0.1', '--port', '5555']
 		}
 	} else if (process.env.BROWSER == 'edge') {
 		drivers = { 
@@ -34,7 +34,7 @@ function checkServiceDriver() {
 		}
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--port', '5555']
+			seleniumArgs: ['--host', '127.0.0.1', '--port', '5555']
 		}
 	} else {
 		throw 'Please check your environtment setting, something invalid';
