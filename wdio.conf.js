@@ -3,26 +3,52 @@ const allure = require('allure-commandline');
 require('dotenv').config();
 const list = require('./test-suite-list.js');
 
-function checkTestMode() {
-	let drivers;
+function checkServiceDriver() {
+	let args, drivers;
 
-	if (process.env.CI == 'false'){
-		drivers = {}
-	} else if (process.env.CI == 'true' && process.env.BROWSER == 'chrome') {
-		drivers = { chrome: { version: 'latest' } }
-	} else if (process.env.CI == 'true' && process.env.BROWSER == 'firefox') {
+	if (process.env.BROWSER == 'chrome') {
+		drivers = { 
+			chrome: { 
+				version: 'latest',
+				arch: process.arch,
+				baseURL: 'https://chromedriver.storage.googleapis.com'
+			} 
+		}
+		args = {
+			drivers: drivers,
+			seleniumArgs: ['--port', '5555']
+		}
+	} else if (process.env.BROWSER == 'firefox') {
 		drivers = { firefox: { version: 'latest' } }
-	} else if (process.env.CI == 'true' && process.env.BROWSER == 'edge') {
-		drivers = { chromiumedge: { version: 'latest' } }
+		args = {
+			drivers: drivers,
+			seleniumArgs: ['--port', '5555']
+		}
+	} else if (process.env.BROWSER == 'edge') {
+		drivers = { 
+			chromiumedge: { 
+				version: '113.0.1774.57', 
+				arch: process.arch,
+				baseURL: 'https://msedgewebdriverstorage.z22.web.core.windows.net' 
+			} 
+		}
+		args = {
+			drivers: drivers,
+			seleniumArgs: ['--port', '5555']
+		}
 	} else {
-		// eslint-disable-next-line no-console
-		console.error('Please check your environtment setting, something went wrong');
+		throw 'Please check your environtment setting, something invalid';
 	}
-
-	return drivers;
+	
+	return {
+		logPath: './logs',
+		skipSeleniumInstall: false,
+		installArgs: drivers,
+		args: args
+	}
 }
 
-function checkBrowser() {
+function checkBrowserCapabilities() {
 	let capabilities, headless = [];
 
 	if (process.env.BROWSER == 'chrome') {
@@ -59,11 +85,10 @@ function checkBrowser() {
 			port: 5555
 		};
 	} else if (process.env.BROWSER == 'safari') {
-		// eslint-disable-next-line no-console, quotes
-		console.error("invalid configuration file, use 'wdio.conf.safari.js' / run with 'npm run test-safari'");
+		// eslint-disable-next-line quotes
+		throw "invalid configuration file, use 'wdio.conf.safari.js' / run with 'npm run test-safari'";
 	} else {
-		// eslint-disable-next-line no-console
-		console.error('Please check your environtment setting, the current Browser env is not mean to run with Selenium Service');
+		throw 'Please check your environtment setting, the current Browser env is not mean to run with Selenium Service';
 	}
 	return capabilities;
 }
@@ -125,7 +150,7 @@ exports.config = {
 	// Sauce Labs platform configurator - a great tool to configure your capabilities:
 	// https://saucelabs.com/platform/platform-configurator
 	//
-	capabilities: [ checkBrowser() ],
+	capabilities: [ checkBrowserCapabilities() ],
 	//
 	// ===================
 	// Test Configurations
@@ -174,14 +199,7 @@ exports.config = {
 	// your test setup with almost no effort. Unlike plugins, they don't add new
 	// commands. Instead, they hook themselves up into the test process.
 	services: [
-		['selenium-standalone', {
-			logPath: './logs',
-			installArgs: checkTestMode(),
-			args: {
-				drivers: checkTestMode(),
-				seleniumArgs: ['--port', '5555']
-			}
-		}]
+		['selenium-standalone', checkServiceDriver()]
 	],
     
 	// Framework you want to run your specs with.

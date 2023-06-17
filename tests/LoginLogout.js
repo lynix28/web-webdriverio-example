@@ -13,7 +13,7 @@ describe('Login Logout Module', function() {
 			allureReporter.addTag('Sanity Test');
 			allureReporter.addSeverity('normal');
 
-			await browser.url(variable.data.url);
+			await browser.navigateTo(variable.data.url);
 
 			await login.loginLogo.waitForExist({ timeout: 10000 });
 			await login.usernameField.waitForExist({ timeout: 10000 });
@@ -76,7 +76,7 @@ describe('Login Logout Module', function() {
 			allureReporter.addTag('Negative Test');
 			allureReporter.addSeverity('normal');
 
-			await browser.url(variable.data.url);
+			await browser.navigateTo(variable.data.url);
 
 			await login.usernameField.waitForExist({ timeout: 10000 });
 			await login.usernameField.click();
