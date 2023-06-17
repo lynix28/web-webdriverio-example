@@ -16,13 +16,13 @@ function checkServiceDriver() {
 		};
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--port', '5555']
+			// seleniumArgs: ['--port', '5555']
 		};
 	} else if (process.env.BROWSER == 'firefox') {
 		drivers = { firefox: { version: 'latest' } };
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--port', '5555']
+			// seleniumArgs: ['--port', '5555']
 		};
 	} else if (process.env.BROWSER == 'edge') {
 		drivers = { 
@@ -34,7 +34,7 @@ function checkServiceDriver() {
 		};
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--port', '5555']
+			// seleniumArgs: ['--port', '5555']
 		};
 	} else {
 		throw 'Please check your environtment setting, something invalid';
@@ -55,7 +55,7 @@ function checkBrowserCapabilities() {
 		if (process.env.HEADLESS == 'true') headless = ['headless', 'disable-gpu'];
 		capabilities = {
 			browserName: 'chrome',
-			port: 5555,
+			// port: 5555,
 			'goog:chromeOptions': {
 				args: headless
 			},
@@ -67,12 +67,12 @@ function checkBrowserCapabilities() {
 				'moz:firefoxOptions': {
 					args: ['-headless']
 				},
-				port: 5555
+				// port: 5555
 			};
 		} else if (process.env.HEADLESS == 'false') {
 			capabilities = {
 				browserName: 'firefox',
-				port: 5555
+				// port: 5555
 			};
 		}
 	} else if (process.env.BROWSER == 'edge') {
@@ -82,7 +82,7 @@ function checkBrowserCapabilities() {
 			'ms:edgeOptions': {
 				args: headless
 			},
-			port: 5555
+			// port: 5555
 		};
 	} else if (process.env.BROWSER == 'safari') {
 		// eslint-disable-next-line quotes
