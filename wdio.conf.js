@@ -27,7 +27,7 @@ function checkServiceDriver() {
 	} else if (process.env.BROWSER == 'edge') {
 		drivers = { 
 			chromiumedge: { 
-				version: '113.0.1774.57', 
+				version: 'latest', 
 				arch: process.arch,
 				baseURL: 'https://msedgewebdriverstorage.z22.web.core.windows.net' 
 			} 

@@ -1,34 +1,77 @@
 version: 2.1
 jobs:
-  Testing:
-    docker:
-      - image: pridecontrol/wdio-selenium-standalone:1.0.0
-        auth:
-          username: $USERNAME
-          password: $PASSWORD
+  Testing-Chrome:
+    machine:
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run:
-          name: "Copy file to work directory"
-          command: cp -r . /app/
+          name: "Running Selenium Standalone - Chrome"
+          command: docker run --name "chrome" -d -p 4444:4444 selenium/standalone-chrome:latest
+          when: always
       - run:
-          name: "Install Selenium Standalone server"
+          name: "Run Test - Chrome"
           command: |
-            cd /app/
-            npm install install selenium-standalone
-            npx selenium-standalone install
-            npx selenium-standalone start
-          background: true
+            echo "BROWSER=chrome" > .env
+            echo "HEADLESS=true" >> .env
+            npm run test -- --suite "sanityTest"
+            docker stop "chrome"
+      - run:
+          name: "Wrapping Test Result"
+          command: "tar -cvf artifact.tar ./allure-report/"
+          when: always
+      - store_artifacts:
+          path: artifact.tar
+
+  Testing-Firefox:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout    
+      - run:
+          name: "Running Selenium Standalone - Firefox"
+          command: docker run --name "firefox" -d -p 4444:4444 selenium/standalone-firefox:latest
+          when: always
       - run:
           name: "Run test - Firefox"
           command: |
-            cd /app/
             echo "BROWSER=firefox" > .env
             echo "HEADLESS=true" >> .env
             npm run test -- --suite "sanityTest"
+            docker stop "firefox"
+      - run:
+          name: "Wrapping Test Result"
+          command: "tar -cvf artifact.tar ./allure-report/"
           when: always
+      - store_artifacts:
+          path: artifact.tar
+
+  Testing-Edge:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout    
+      - run:
+          name: "Running Selenium Standalone - Edge"
+          command: docker run --name "edge" -d -p 4444:4444 selenium/standalone-edge:latest
+          when: always
+      - run:
+          name: "Run test - Edge"
+          command: |
+            echo "BROWSER=edge" > .env
+            echo "HEADLESS=true" >> .env
+            npm run test -- --suite "sanityTest"
+            docker stop "edge"
+      - run:
+          name: "Wrapping Test Result"
+          command: "tar -cvf artifact.tar ./allure-report/"
+          when: always
+      - store_artifacts:
+          path: artifact.tar
 
 workflows:
   Test-Workflow:
     jobs:
-      - Testing
+      - Testing-Chrome
+      - Testing-Firefox
+      - Testing-Edge
