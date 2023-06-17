@@ -13,17 +13,17 @@ function checkServiceDriver() {
 				arch: process.arch,
 				baseURL: 'https://chromedriver.storage.googleapis.com'
 			} 
-		}
+		};
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--host', '127.0.0.1', '--port', '5555']
-		}
+			// seleniumArgs: ['--port', '5555']
+		};
 	} else if (process.env.BROWSER == 'firefox') {
-		drivers = { firefox: { version: 'latest' } }
+		drivers = { firefox: { version: 'latest' } };
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--host', '127.0.0.1', '--port', '5555']
-		}
+			// seleniumArgs: ['--port', '5555']
+		};
 	} else if (process.env.BROWSER == 'edge') {
 		drivers = { 
 			chromiumedge: { 
@@ -31,11 +31,11 @@ function checkServiceDriver() {
 				arch: process.arch,
 				baseURL: 'https://msedgewebdriverstorage.z22.web.core.windows.net' 
 			} 
-		}
+		};
 		args = {
 			drivers: drivers,
-			seleniumArgs: ['--host', '127.0.0.1', '--port', '5555']
-		}
+			// seleniumArgs: ['--port', '5555']
+		};
 	} else {
 		throw 'Please check your environtment setting, something invalid';
 	}
@@ -45,7 +45,7 @@ function checkServiceDriver() {
 		skipSeleniumInstall: false,
 		installArgs: drivers,
 		args: args
-	}
+	};
 }
 
 function checkBrowserCapabilities() {
@@ -55,7 +55,7 @@ function checkBrowserCapabilities() {
 		if (process.env.HEADLESS == 'true') headless = ['headless', 'disable-gpu'];
 		capabilities = {
 			browserName: 'chrome',
-			port: 5555,
+			// port: 5555,
 			'goog:chromeOptions': {
 				args: headless
 			},
@@ -67,12 +67,12 @@ function checkBrowserCapabilities() {
 				'moz:firefoxOptions': {
 					args: ['-headless']
 				},
-				port: 5555
+				// port: 5555
 			};
 		} else if (process.env.HEADLESS == 'false') {
 			capabilities = {
 				browserName: 'firefox',
-				port: 5555
+				// port: 5555
 			};
 		}
 	} else if (process.env.BROWSER == 'edge') {
@@ -82,7 +82,7 @@ function checkBrowserCapabilities() {
 			'ms:edgeOptions': {
 				args: headless
 			},
-			port: 5555
+			// port: 5555
 		};
 	} else if (process.env.BROWSER == 'safari') {
 		// eslint-disable-next-line quotes
@@ -298,8 +298,8 @@ exports.config = {
      * @param {object} suite suite details
      */
 	// eslint-disable-next-line no-unused-vars
-	beforeSuite: async function (suite) {
-		await global.browser.newWindow('');
+	beforeSuite: function (suite) {
+		global.browser.newWindow('');
 	},
 	/**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
