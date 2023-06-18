@@ -1,5 +1,7 @@
 # web-webdriverio-example
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/lynix28/web-webdriverio-example/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/lynix28/web-webdriverio-example/tree/master)
+
 <h3><ins>Need to Install for the test:</h3>
     
 - <b>WebdriverIO Packages</b>
