@@ -10,7 +10,7 @@ describe('Smoke Test Module', function() {
 			allureReporter.addTag('Smoke Test');
 			allureReporter.addSeverity('critical');
 			
-			await browser.url(variable.data.url);
+			await browser.navigateTo(variable.data.url);
 			const response = await browser.getTitle();
 
 			expect(response).to.equal(assert.attribute.expectedUrlTitle, response);

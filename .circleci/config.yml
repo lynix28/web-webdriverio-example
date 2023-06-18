@@ -1,0 +1,107 @@
+version: 2.1
+jobs:
+  Testing-Chrome:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout
+      - run:
+          name: "Running Selenium Standalone - Chrome"
+          command: docker run --name "chrome" -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:latest
+          when: always
+      - run:
+          name: "Install Dependencies"
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            sudo apt-get update
+            sudo apt-get install -y nodejs
+            npm install
+      - run:
+          name: "Run Test - Chrome"
+          command: |
+            echo "BROWSER=chrome" > .env
+            echo "HEADLESS=true" >> .env
+            npm run test-ci -- --suite "sanityTest"
+            docker stop "chrome"
+      - run:
+          name: "Wrapping Test Result"
+          command: |
+            mkdir test_artifact
+            tar -cvf ./test_artifact/artifact_1.tar ./allure-report
+            tar -cvf ./test_artifact/artifact_2.tar ./logs
+          when: always
+      - store_artifacts:
+          path: test_artifact
+
+  Testing-Firefox:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout    
+      - run:
+          name: "Running Selenium Standalone - Firefox"
+          command: docker run --name "firefox" -d -p 4444:4444 --shm-size="2g" selenium/standalone-firefox:latest
+          when: always
+      - run:
+          name: "Install Dependencies"
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            sudo apt-get update
+            sudo apt-get install -y nodejs
+            npm install
+      - run:
+          name: "Run test - Firefox"
+          command: |
+            echo "BROWSER=firefox" > .env
+            echo "HEADLESS=true" >> .env
+            npm run test-ci -- --suite "sanityTest"
+            docker stop "firefox"
+      - run:
+          name: "Wrapping Test Result"
+          command: |
+            mkdir test_artifact
+            tar -cvf ./test_artifact/artifact_1.tar ./allure-report
+            tar -cvf ./test_artifact/artifact_2.tar ./logs
+          when: always
+      - store_artifacts:
+          path: test_artifact
+
+  Testing-Edge:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout    
+      - run:
+          name: "Running Selenium Standalone - Edge"
+          command: docker run --name "edge" -d -p 4444:4444 --shm-size="2g" selenium/standalone-edge:latest
+          when: always
+      - run:
+          name: "Install Dependencies"
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            sudo apt-get update
+            sudo apt-get install -y nodejs
+            npm install
+      - run:
+          name: "Run test - Edge"
+          command: |
+            echo "BROWSER=edge" > .env
+            echo "HEADLESS=true" >> .env
+            npm run test-ci -- --suite "sanityTest"
+            docker stop "edge"
+      - run:
+          name: "Wrapping Test Result"
+          command: |
+            mkdir test_artifact
+            tar -cvf ./test_artifact/artifact_1.tar ./allure-report
+            tar -cvf ./test_artifact/artifact_2.tar ./logs
+          when: always
+      - store_artifacts:
+          path: test_artifact
+
+workflows:
+  Test-Workflow:
+    jobs:
+      - Testing-Chrome
+      - Testing-Firefox
+      - Testing-Edge
