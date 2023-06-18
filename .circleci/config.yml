@@ -25,10 +25,13 @@ jobs:
             docker stop "chrome"
       - run:
           name: "Wrapping Test Result"
-          command: "tar -cvf artifact.tar ./allure-report/"
+          command: |
+            mkdir test_artifact
+            tar -cvf ./test_artifact/artifact_1.tar ./allure-report
+            tar -cvf ./test_artifact/artifact_2.tar ./logs
           when: always
       - store_artifacts:
-          path: artifact.tar
+          path: test_artifact
 
   Testing-Firefox:
     machine:
@@ -55,10 +58,13 @@ jobs:
             docker stop "firefox"
       - run:
           name: "Wrapping Test Result"
-          command: "tar -cvf artifact.tar ./allure-report/"
+          command: |
+            mkdir test_artifact
+            tar -cvf ./test_artifact/artifact_1.tar ./allure-report
+            tar -cvf ./test_artifact/artifact_2.tar ./logs
           when: always
       - store_artifacts:
-          path: artifact.tar
+          path: test_artifact
 
   Testing-Edge:
     machine:
