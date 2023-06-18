@@ -113,7 +113,8 @@ exports.config = {
 	// Define all options that are relevant for the WebdriverIO instance here
 	//
 	// Level of logging verbosity: trace | debug | info | warn | error | silent
-	logLevel: 'info',
+	logLevel: 'trace',
+	outputDir: './logs',
 	//
 	// Set specific log levels per logger
 	// loggers:
@@ -264,15 +265,16 @@ exports.config = {
      * Hook that gets executed before the suite starts
      * @param {object} suite suite details
      */
-	// eslint-disable-next-line no-unused-vars
-	beforeSuite: function (suite) {
-		global.browser.newWindow('');
-		global.browser.pause(10000);
-	},
+	// beforeSuite: function (suite) {
+	// },
 	/**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
 	// beforeTest: function (test, context) {
+	beforeTest: async function () {
+		global.browser.setWindowRect(0, 25, 1680, 844);
+		global.browser.pause(10000);
+	},
 	// },
 	/**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
