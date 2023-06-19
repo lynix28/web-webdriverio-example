@@ -75,7 +75,7 @@ exports.config = {
 	specs: [
 		// ToDo: define location for spec files here
 		[
-			'./tests/*.js'
+			'../../tests/*.js'
 		],
 	],
 	suites: list.testSuite,
