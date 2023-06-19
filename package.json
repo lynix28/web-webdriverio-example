@@ -4,10 +4,10 @@
   "description": "Web automation testing example project with WebdriverIO",
   "main": "index.js",
   "scripts": {
-    "test": "wdio run ./wdio.conf.js",
-    "test-safari": "wdio run ./wdio.conf.safari.js",
-    "test-ci": "wdio run ./wdio.conf.ci.js",
-    "cloud": "wdio run ./wdio.conf.cloud.js",
+    "test": "wdio run ./resources/config/wdio.conf.js",
+    "test-safari": "wdio run ./resources/config/wdio.conf.safari.js",
+    "test-ci": "wdio run ./resources/config/wdio.conf.ci.js",
+    "test-sauce": "wdio run ./resources/config/wdio.conf.sauce.js",
     "report": "allure open"
   },
   "keywords": [],

@@ -3,6 +3,51 @@ const allure = require('allure-commandline');
 require('dotenv').config();
 const list = require('./test-suite-list.js');
 
+function checkServiceDriver() {
+	let args, drivers;
+
+	if (process.env.BROWSER == 'chrome') {
+		drivers = { 
+			chrome: { 
+				version: 'latest',
+				arch: process.arch,
+				baseURL: 'https://chromedriver.storage.googleapis.com'
+			} 
+		};
+		args = {
+			drivers: drivers,
+			// seleniumArgs: ['--port', '5555']
+		};
+	} else if (process.env.BROWSER == 'firefox') {
+		drivers = { firefox: { version: 'latest' } };
+		args = {
+			drivers: drivers,
+			// seleniumArgs: ['--port', '5555']
+		};
+	} else if (process.env.BROWSER == 'edge') {
+		drivers = { 
+			chromiumedge: { 
+				version: 'latest', 
+				arch: process.arch,
+				baseURL: 'https://msedgewebdriverstorage.z22.web.core.windows.net' 
+			} 
+		};
+		args = {
+			drivers: drivers,
+			// seleniumArgs: ['--port', '5555']
+		};
+	} else {
+		throw 'Please check your environtment setting, something invalid';
+	}
+	
+	return {
+		logPath: './logs',
+		skipSeleniumInstall: false,
+		installArgs: drivers,
+		args: args
+	};
+}
+
 function checkBrowserCapabilities() {
 	let capabilities, headless = [];
 
@@ -75,7 +120,7 @@ exports.config = {
 	specs: [
 		// ToDo: define location for spec files here
 		[
-			'./tests/*.js'
+			'../../tests/*.js'
 		],
 	],
 	suites: list.testSuite,
@@ -154,21 +199,9 @@ exports.config = {
 	// Services take over a specific job you don't want to take care of. They enhance
 	// your test setup with almost no effort. Unlike plugins, they don't add new
 	// commands. Instead, they hook themselves up into the test process.
-	// services: ['docker'],
-	// dockerOptions: {
-	// 	image: `selenium/standalone-${process.env.BROWSER}:latest`,
-	// 	healthCheck: {
-	// 		url: 'http://localhost:4444',
-	// 		maxRetries: 3,
-	// 		inspectInterval: 1000,
-	// 		startDelay: 1000
-	// 	},
-	// 	options: {
-	// 		p: ['4444:4444'],
-	// 		shmSize: '2g',
-	// 		dockerLogs: './logs'
-	// 	}
-	// },
+	services: [
+		['selenium-standalone', checkServiceDriver()]
+	],
     
 	// Framework you want to run your specs with.
 	// The following are supported: Mocha, Jasmine, and Cucumber
@@ -253,6 +286,7 @@ exports.config = {
      * @param {object}         browser      instance of created browser/device session
      */
 	// before: function (capabilities, specs) {
+	// },
 	// },
 	/**
      * Runs before a WebdriverIO command gets executed.
