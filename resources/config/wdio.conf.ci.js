@@ -1,7 +1,7 @@
 const global = require('@wdio/globals');
 const allure = require('allure-commandline');
 require('dotenv').config();
-const list = require('../../test-suite-list.js');
+const list = require('./test-suite-list.js');
 
 function checkBrowserCapabilities() {
 	let capabilities, headless = [];
