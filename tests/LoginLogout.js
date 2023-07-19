@@ -1,8 +1,8 @@
 const browser = require('@wdio/globals').browser;
 const allureReporter = require('@wdio/allure-reporter').default;
 const variable = require('../resources/shared/variable.js');
-const login2 = require('../resources/pages/login.page/action.js');
-const logout2 = require('../resources/pages/logout.page/action.js');
+const login = require('../resources/pages/login.page/action.js');
+const logout = require('../resources/pages/logout.page/action.js');
 
 describe('Login Logout Module', function() {
 	describe('TS-001 | Login Logout', function() {
@@ -13,26 +13,26 @@ describe('Login Logout Module', function() {
 			allureReporter.addTag('Sanity Test');
 			allureReporter.addSeverity('normal');
 			
-			await login2.checkElement();
+			await login.checkElement();
 		});
 
 		it('TC-002 | Success Login', async function() {
 			allureReporter.addTag('Sanity Test');
 			allureReporter.addSeverity('normal');
 
-			await login2.fillUsername(variable.data.username);
-			await login2.fillPassword(variable.data.password);
-			await login2.clickLoginButton();
-			await login2.checkLoginState();
+			await login.fillUsername(variable.data.username);
+			await login.fillPassword(variable.data.password);
+			await login.clickLoginButton();
+			await login.checkLoginState();
 		});
 
 		it('TC-003 | Success Logout', async function() {
 			allureReporter.addTag('Sanity Test');
 			allureReporter.addSeverity('normal');
 
-			await logout2.openMenu();
-			await logout2.clickLogout();
-			await logout2.checkLogoutState();
+			await logout.openMenu();
+			await logout.clickLogout();
+			await logout.checkLogoutState();
 		});
 	});
 
@@ -44,10 +44,10 @@ describe('Login Logout Module', function() {
 			allureReporter.addTag('Negative Test');
 			allureReporter.addSeverity('normal');
 
-			await login2.fillUsername(variable.data.invalidUsername);
-			await login2.fillPassword(variable.data.invalidPassword);
-			await login2.clickLoginButton();
-			await login2.checkErrorMessage();
+			await login.fillUsername(variable.data.invalidUsername);
+			await login.fillPassword(variable.data.invalidPassword);
+			await login.clickLoginButton();
+			await login.checkErrorMessage();
 		});
 	});
 });

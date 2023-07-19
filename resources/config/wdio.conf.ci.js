@@ -74,9 +74,7 @@ exports.config = {
 	//
 	specs: [
 		// ToDo: define location for spec files here
-		[
-			'../../tests/*.js'
-		],
+		'../../tests/*.js'
 	],
 	suites: list.testSuite,
 	// Patterns to exclude.
@@ -271,9 +269,10 @@ exports.config = {
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
 	// beforeTest: function (test, context) {
-	beforeTest: async function () {
-		global.browser.setWindowRect(0, 25, 1680, 844);
-		global.browser.pause(10000);
+	// eslint-disable-next-line no-unused-vars
+	beforeTest: async function (test, context) {
+		await global.browser.setWindowRect(0, 25, 1680, 844);
+		await global.browser.pause(10000);
 	},
 	// },
 	/**

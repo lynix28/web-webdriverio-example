@@ -119,9 +119,7 @@ exports.config = {
 	//
 	specs: [
 		// ToDo: define location for spec files here
-		[
-			'../../tests/*.js'
-		],
+		'../../tests/*.js'
 	],
 	suites: list.testSuite,
 	// Patterns to exclude.
@@ -144,7 +142,7 @@ exports.config = {
 	// and 30 processes will get spawned. The property handles how many capabilities
 	// from the same test should run tests.
 	//
-	maxInstances: 10,
+	maxInstances: 1,
 	//
 	// If you have trouble getting all important capabilities together, check out the
 	// Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -305,9 +303,10 @@ exports.config = {
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
 	// beforeTest: function (test, context) {
-	beforeTest: async function () {
-		global.browser.setWindowRect(0, 25, 1680, 844);
-		global.browser.pause(10000);
+	// eslint-disable-next-line no-unused-vars
+	beforeTest: async function (test, context) {
+		await global.browser.setWindowRect(0, 25, 1680, 844);
+		await global.browser.pause(10000);
 	},
 	// },
 	/**
