@@ -139,6 +139,39 @@ jobs:
           name: "Send Notification - Stop Testing"
           command: npx run-func discord-notification.js test "stop"
 
+  Testing-BDD:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout
+      - run:
+          name: "Running Selenium Standalone - Chrome"
+          command: docker run --name "chrome" -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:latest
+          when: always
+      - run:
+          name: "Install Dependencies"
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            sudo apt-get update
+            sudo apt-get install -y nodejs
+            npm install
+      - run:
+          name: "Run Test - Chrome (BDD)"
+          command: |
+            echo "BROWSER=chrome" > .env
+            echo "HEADLESS=true" >> .env
+            npm run test-bdd-ci
+            docker stop "chrome"
+      - run:
+          name: "Wrapping Test Result"
+          command: |
+            mkdir test_artifact
+            tar -cvf ./test_artifact/artifact_1.tar ./allure-report
+            tar -cvf ./test_artifact/artifact_2.tar ./logs
+          when: always
+      - store_artifacts:
+          path: test_artifact
+
 workflows:
   Test-Workflow:
     jobs:
@@ -152,8 +185,12 @@ workflows:
       - Testing-Edge:
           requires:
             - Notification-Start
+      - Testing-BDD:
+          requires:
+            - Notification-Start
       - Notification-Stop:
           requires:
             - Testing-Chrome
             - Testing-Firefox
             - Testing-Edge
+            - Testing-BDD
