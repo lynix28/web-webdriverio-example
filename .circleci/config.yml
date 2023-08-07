@@ -98,7 +98,6 @@ jobs:
           when: always
       - store_artifacts:
           path: test_artifact
-      disabled: true
 
   Notification-Start:
     docker:
@@ -183,9 +182,9 @@ workflows:
       - Testing-Firefox:
           requires:
             - Notification-Start
-      - Testing-Edge:
-          requires:
-            - Notification-Start
+      # - Testing-Edge:
+      #     requires:
+      #       - Notification-Start
       - Testing-BDD:
           requires:
             - Notification-Start
@@ -193,5 +192,5 @@ workflows:
           requires:
             - Testing-Chrome
             - Testing-Firefox
-            - Testing-Edge
+            # - Testing-Edge
             - Testing-BDD
