@@ -1,8 +1,8 @@
 const browser = require('@wdio/globals').browser;
 const allureReporter = require('@wdio/allure-reporter').default;
-const variable = require('../resources/shared/variable.js');
-const login = require('../resources/pages/login.page/action.js');
-const logout = require('../resources/pages/logout.page/action.js');
+const variable = require('../../resources/shared/variable.js');
+const login = require('../../resources/pages/login.page/action.js');
+const logout = require('../../resources/pages/logout.page/action.js');
 
 describe('Login Logout Module', function() {
 	describe('TS-001 | Login Logout', function() {

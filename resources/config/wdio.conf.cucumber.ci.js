@@ -73,7 +73,7 @@ exports.config = {
 	//
 	specs: [
 		// ToDo: define location for spec files here
-		'../../tests/bdd/features/*.feature'
+		'../../tests/cucumber/features/*.feature'
 	],
 	// Patterns to exclude.
 	exclude: [
@@ -188,7 +188,7 @@ exports.config = {
 	cucumberOpts: {
 		timeout: 60000,
 		require: [
-			'./tests/bdd/steps_definition/*.js'
+			'./tests/cucumber/steps_definition/*.js'
 		]
 	},
 	//

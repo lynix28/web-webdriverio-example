@@ -119,7 +119,7 @@ exports.config = {
 	//
 	specs: [
 		// ToDo: define location for spec files here
-		'../../tests/*.js'
+		'../../tests/mocha/*.js'
 	],
 	suites: list.testSuite,
 	// Patterns to exclude.

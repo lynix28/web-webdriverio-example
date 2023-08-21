@@ -233,7 +233,7 @@ exports.config = {
 	cucumberOpts: {
 		timeout: 60000,
 		require: [
-			'./tests/bdd/steps_definition/*.js'
+			'./tests/cucumber/steps_definition/*.js'
 		]
 	},
 	//
