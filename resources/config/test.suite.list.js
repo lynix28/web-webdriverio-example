@@ -1,4 +1,4 @@
-const path = '../../tests/mocha';
+const path = '../../tests/mocha/';
 
 module.exports = {
 	testSuite: {
